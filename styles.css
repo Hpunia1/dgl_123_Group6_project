@@ -54,7 +54,7 @@
   
   nav ul li a:hover {
     color: #09ae43; /* Change color on hover */
-    text-decoration: underline; /* Add underline on hover */
+
   }
   
   .login-cart {
@@ -473,7 +473,6 @@
   padding: 0.8rem 2rem;
   background-color: white;
   border: 1px solid #d1d5db;
-  border-radius: 5px;
   cursor: pointer;
 }
 
