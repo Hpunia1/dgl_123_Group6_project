@@ -1,0 +1,176 @@
+/* General reset and styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  /* Make the header transparent */
+  header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10; /* Ensure the nav stays on top of the hero section */
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
+  
+  }
+  
+  .logo img {
+    max-width: 120px;
+  }
+  
+  nav ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  nav ul li {
+    margin-left: 20px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 10px 15px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  
+  nav ul li a:hover {
+    color: #09ae43; /* Change color on hover */
+    text-decoration: underline; /* Add underline on hover */
+  }
+  
+  .login-cart {
+    display: flex;
+    align-items: center;
+  }
+  
+  .login-cart span {
+    margin-right: 15px;
+  }
+  
+  .login-cart a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .login-cart a:hover {
+    background-color: #09ae43;
+    color: #fff;
+  }
+  element.style {
+    margin-right: 1.5em;
+  }
+  /* Hero Section */
+  .hero {
+    background-image: url('images/homepage-cta-background.jpg');
+    background-size: cover;
+    height: 120vh; /* Make hero take full viewport height */
+    color: #e0e0e0;
+    text-align: center; 
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+    position: relative;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    color: #fff; /* Make text white to contrast with background */
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    color: #ddd;
+    margin: 20px 0;
+  }
+  
+  .hero button {
+    padding: 15px 50px;
+    font-size: 1rem;
+    background-color: clear;
+    color: #fff;
+    border: solid 2px white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    background-color: transparent;
+  }
+  
+  .hero button:hover {
+    background-color: #09ae43;;
+  }
+  
+  footer {
+    background-color: #333; /* Dark background */
+    color: #f8f8f8; /* Light text color */
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  
+  footer p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+  
+  footer a {
+    color: #f8f8f8;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  footer a:hover {
+    color: #007bff;
+  }
+  
+  /* Social media icons */
+  footer .socials {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  footer .socials li {
+    margin: 0 10px;
+  }
+  
+  footer .socials li a {
+    display: inline-block;
+  }
+  
+  footer .socials li a img {
+    width: 30px; /* Adjust icon size */
+    height: 30px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  footer .socials li a img:hover {
+    transform: scale(1.1); /* Slight scale effect on hover */
+  }
+  
