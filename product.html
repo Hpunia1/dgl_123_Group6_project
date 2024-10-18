@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men's Winter Jacket</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="#"><img src="images/logo.png" alt="Logo"></a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="cart.html" class="cart-link">Cart</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="product-container">
+        <div class="product-image">
+            <img src="images/jacket.jpg" alt="Men's Winter Jacket">
+        </div>
+        <div class="product-details">
+            <h1>Men's Winter Jacket</h1>
+            <p class="price">$99</p>
+            <p>Revamp your style with the latest designer trends in men’s clothing...</p>
+
+            <div class="product-options">
+                <p><strong>Color:</strong></p>
+                <div class="colors">
+                    <span class="color" style="background-color: #d5a48f;"></span>
+                    <span class="color" style="background-color: #000;"></span>
+                </div>
+
+                <p><strong>Size:</strong></p>
+                <div class="sizes">
+                    <button class="size-btn" data-size="XS">XS</button>
+                    <button class="size-btn" data-size="S">S</button>
+                    <button class="size-btn" data-size="M">M</button>
+                    <button class="size-btn" data-size="L">L</button>
+                    <button class="size-btn" data-size="XL">XL</button>
+                    <button class="size-btn" data-size="XXL">XXL</button>
+                    <button class="size-btn" data-size="3XL">3XL</button>
+                </div>
+
+                <p><strong>Quantity:</strong></p>
+                <div class="quantity-selector">
+                    <button class="qty-btn" id="decrease">-</button>
+                    <input type="text" id="quantity" value="1">
+                    <button class="qty-btn" id="increase">+</button>
+                </div>
+
+                <button id="add-to-cart" class="add-to-cart">Add to Cart - $99</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
