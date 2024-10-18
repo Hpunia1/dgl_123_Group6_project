@@ -262,7 +262,231 @@
   color: #fff;
 }
 
-/*-----Footer---*/
+
+
+
+
+
+
+
+
+/*shopping page-----------------------------------------------------------------*/
+
+
+.shopping-navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  background-color:#0f0e0e;
+}
+
+.hero-shoping {
+  background-size: cover;
+  background-position: center;
+ color: #ffffff;
+  text-align: left;
+  padding: 4rem;
+  position: relative;
+  z-index: 1;
+  background-image: url('images/guy-holding-shopping-bags.jpg');
+  height: 75vh;
+  background-size: 80% auto; /* Ensure the width fits, but height auto-adjusts */
+  background-position: top; /* Focus on the top part of the image */
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.hero-p {
+  max-width: 400px; /* Limit the width of the text block */
+  color: white; /* Change text color if needed */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Optional: for better readability */
+}
+
+.body-shopping{
+  background-color: white;
+}
+
+.hero-shoping::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Adds a dark overlay for readability */
+    z-index: -1;
+  }
+
+.hero-shopping h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-shopping p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.content {
+  display: flex;
+  margin: 2rem;
+}
+
+.filters {
+  width: 20%;
+  background-color: white;
+  padding: 2rem;
+  border-right: 1px solid #e5e7eb;
+}
+
+.filters h3 {
+  margin-bottom: 1rem;
+}
+
+.filters ul {
+  list-style-type: none;
+  margin-bottom: 2rem;
+}
+
+.filters ul li {
+  margin-bottom: 0.5rem;
+}
+
+.filters ul li input {
+  margin-right: 0.5rem;
+}
+
+.filters .colors {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.filters .colors .color-box {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.flt{
+  color: #09ae43;
+  text-decoration: none;
+}
+
+
+
+.color-orange { background-color: orange; }
+.color-purple { background-color: purple; }
+.color-blue { background-color: blue; }
+.color-green { background-color: green; }
+.color-red { background-color: red; }
+.color-yellow { background-color: yellow; }
+
+
+.product img {
+  width: 200px; /* Set a fixed width */
+  height: 300px; /* Set a fixed height */
+  object-fit: cover; /* Ensures the image fills the box, cropping if necessary */
+  display: block;
+  margin: 0 auto;
+}
+
+.products {
+  width: 100%;
+  height: auto;
+  padding: 2rem;
+}
+
+.products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.products-header h2 {
+  font-size: 1.5rem;
+}
+
+.products-header select {
+  padding: 0.5rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5em;
+    padding: 5em 6em;
+    padding-bottom: 3em;
+}
+
+.product {
+  background-color: #e9e9e987;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 8px;
+  border:  rgb(142, 133, 133);
+  overflow: hidden;
+  padding: 1rem;
+  box-shadow: 5px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product img {
+  width: 100%;
+  height: 200px;
+  background-color: lightgrey;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.product:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.product h4 {
+  margin-bottom: 0.5rem;
+}
+
+.product span {
+  font-size: 0.9rem;
+}
+
+.product-price {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.load-more {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.load-more button {
+  padding: 0.8rem 2rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.load-more button:hover {
+  background-color: #e9e9e987;
+}
+
+
+
+
+
+
+/*-----Footer---------------------------------------------------------------*/
   footer {
     background-color: #333; /* Dark background */
     color: #f8f8f8; /* Light text color */
