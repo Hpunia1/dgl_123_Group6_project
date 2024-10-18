@@ -7,7 +7,7 @@
   
   body {
     font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
+    background-color: #303030;
     color: #333;
     line-height: 1.6;
   }
@@ -69,10 +69,9 @@
   .login-cart a {
     text-decoration: none;
     font-weight: bold;
-    color: #333;
+    color: #fdfcfc;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
     transition: background-color 0.3s ease-in-out;
   }
   
@@ -125,6 +124,145 @@
     background-color: #09ae43;;
   }
   
+  /* Cart Page Specific Styles */
+.cart-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem auto;
+  padding: 1rem;
+  max-width: 1200px;
+}
+
+.cart-items {
+  width: 60%;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1rem;
+}
+
+.cart-item-image {
+  width: 100px;
+  height: 100px;
+  margin-right: 20px;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+}
+
+.cart-item-details h3 {
+  font-size: 1.2rem;
+}
+
+.cart-item-details p {
+  margin: 5px 0;
+}
+
+.cart-item-details .price {
+  font-weight: bold;
+  color: #333;
+}
+
+.remove-item {
+  color: #ff0000;
+  text-decoration: none;
+}
+
+.order-summary {
+  width: 35%;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.order-summary h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.coupon input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.summary-details {
+  font-size: 1rem;
+}
+
+.summary-details p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.checkout-btn:hover {
+  background-color: #444;
+}
+
+/* Order Information Section */
+.order-info {
+  margin: 2rem auto;
+  padding: 1rem;
+  max-width: 1200px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.order-info details {
+  margin-bottom: 1rem;
+}
+
+.order-info summary {
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.order-info p {
+  padding-left: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+/* Style for the cart link button */
+.cart-link {
+  text-decoration: none;
+  font-weight: bold;
+  color: #333;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+}
+
+.cart-link:hover {
+  background-color: #09ae43;
+  color: #fff;
+}
+
+/*-----Footer---*/
   footer {
     background-color: #333; /* Dark background */
     color: #f8f8f8; /* Light text color */
