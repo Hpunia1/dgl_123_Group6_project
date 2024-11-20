@@ -1,50 +1,41 @@
 <?php
-// Start session
+
+require 'db.php'; // Include database connection
 session_start();
 
-// Initialize error variable
-$error = '';
+// Display success message if the user is redirected after registration
+$message = "";
+if (isset($_GET['message']) && $_GET['message'] == 'success') {
+    $message = "Registration successful! Please log in.";
+}
 
-// Check if form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Database credentials
-    $host = 'localhost';
-    $db = 'login_system';
-    $user = 'root';
-    $pass = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = trim($_POST["username"]); // trim(string,charlist)
+    $password = trim($_POST["password"]);
 
-    // Connect to database
-    $conn = new mysqli($host, $user, $pass, $db);
-
-    if ($conn->connect_error) {
-        die('Database connection failed: ' . $conn->connect_error);
-    }
-
-    // Get input values
-    $inputUsername = $_POST['username'];
-    $inputPassword = $_POST['password'];
-
-    // Query database for user
-    $stmt = $conn->prepare('SELECT password_hash FROM users WHERE username = ?');
-    $stmt->bind_param('s', $inputUsername);
+    // Check if username exists in the database
+    $sql = "SELECT * FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
-    $stmt->bind_result($passwordHash);
-    $stmt->fetch();
+    $result = $stmt->get_result();
 
-    // Verify password
-    if ($passwordHash && password_verify($inputPassword, $passwordHash)) {
-        // Set session variables
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $inputUsername;
-
-        // Redirect to dashboard
-        header('Location: dashboard.php');
-        exit;
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        if (password_verify($password, $user['password'])) {
+            // Password is correct, start a session
+            $_SESSION["loggedin"] = true;
+            $_SESSION["username"] = $username;
+            // Redirect to homepage
+            header("Location: index.php");
+            exit();
+        } else {
+            echo "Invalid password.";
+        }
     } else {
-        $error = 'Invalid username or password';
+        echo "Invalid username.";
     }
 
-    // Close statement and connection
     $stmt->close();
     $conn->close();
 }
@@ -55,23 +46,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Login</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login to Your Account</h2>
-        <?php if (!empty($error)) echo "<p class='error'>" . htmlspecialchars($error) . "</p>"; ?>
-        <form action="login.php" method="post">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+    <h2>Login</h2>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+    <!-- Show registration success message if available -->
+    <?php if (!empty($message)) { echo "<p style='color: green;'>$message</p>"; } ?>
 
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="#">Sign Up</a></p>
-    </div>
+    <form action="login.php" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required><br>
+       
+        <label for="password">Password:</label>
+        <input type="password" name="password" required><br>
+       
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Register button for new users -->
+    <p>Don't have an account? <a href="register.php">Register</a></p>
 </body>
 </html>
