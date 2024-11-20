@@ -1,39 +1,43 @@
 <?php
 
-require 'db.php'; // Include database connection
-session_start();
+include 'includes/header.php';
 
-// Display success message if the user is redirected after registration
+require 'db.php';
+
+
 $message = "";
 if (isset($_GET['message']) && $_GET['message'] == 'success') {
     $message = "Registration successful! Please log in.";
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST["username"]); // trim(string,charlist)
+    $username = trim($_POST["username"]);
     $password = trim($_POST["password"]);
 
-    // Check if username exists in the database
-    $sql = "SELECT * FROM users WHERE username = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if (!empty($username) && !empty($password)) {
+        $sql = "SELECT id, username, password FROM users WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
-        if (password_verify($password, $user['password'])) {
-            // Password is correct, start a session
-            $_SESSION["loggedin"] = true;
-            $_SESSION["username"] = $username;
-            // Redirect to homepage
-            header("Location: index.php");
-            exit();
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            if (password_verify($password, $user['password'])) {
+                $_SESSION["loggedin"] = true;
+                $_SESSION["user_id"] = $user['id'];
+                $_SESSION["username"] = $user['username'];
+
+                header("Location: index.php");
+                exit();
+            } else {
+                $error = "Invalid password.";
+            }
         } else {
-            echo "Invalid password.";
+            $error = "Invalid username.";
         }
     } else {
-        echo "Invalid username.";
+        $error = "Please fill in all fields.";
     }
 
     $stmt->close();
@@ -51,21 +55,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h2>Login</h2>
-
-    <!-- Show registration success message if available -->
-    <?php if (!empty($message)) { echo "<p style='color: green;'>$message</p>"; } ?>
+    <?php if (!empty($message)) : ?>
+        <p style="color: green;"><?php echo $message; ?></p>
+    <?php endif; ?>
+    <?php if (!empty($error)) : ?>
+        <p style="color: red;"><?php echo $error; ?></p>
+    <?php endif; ?>
 
     <form action="login.php" method="POST">
         <label for="username">Username:</label>
         <input type="text" name="username" required><br>
-       
+
         <label for="password">Password:</label>
         <input type="password" name="password" required><br>
-       
+
         <button type="submit">Login</button>
     </form>
 
-    <!-- Register button for new users -->
     <p>Don't have an account? <a href="register.php">Register</a></p>
 </body>
 </html>
