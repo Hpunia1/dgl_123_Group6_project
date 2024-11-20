@@ -180,13 +180,13 @@ nav ul li a:hover {
 
 /* Style for Load More Button */
 
-.load-more {
+.load-buttons {
   display: flex; /* Use flexbox for centering */
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically (if needed) */
   margin: 2rem 0; /* Add vertical spacing */
 }
-.load-more button {
+.load-buttons button {
   padding: 12px 30px;
   background-color: #09ae43; /* Primary green color */
   color: rgb(255, 255, 255); /* White text for contrast */
@@ -203,22 +203,28 @@ nav ul li a:hover {
   text-align: center;
 }
 
-.load-more button:hover {
+.load-buttons button:hover {
  
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
   transform: scale(1.05); /* Subtle zoom-in effect */
 }
 
-.load-more button:active {
+.load-buttons button:active {
  
   transform: scale(0.95); /* Shrink slightly on click for feedback */
 }
 
-.load-more button:disabled {
+.load-buttons button:disabled {
   background-color: #ccc; /* Gray color for disabled state */
   color: #666; /* Slightly darker text */
   cursor: not-allowed; /* Indicate non-interactivity */
   box-shadow: none; /* Remove shadow */
+}
+
+
+.load-buttons{
+  display: flex;
+  justify-content: space-around;
 }
 
 
@@ -577,3 +583,13 @@ footer {
   footer .socials li a img:hover {
   transform: scale(1.1); /* Hover effect */
   }
+
+
+
+
+
+
+
+  /* try*/
+
+  

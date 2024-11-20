@@ -11,9 +11,9 @@ $cart = $_SESSION['cart'] ?? [];
 if (isset($_GET['remove_id'])) {
     $removeId = $_GET['remove_id'];
     if (isset($cart[$removeId])) {
-        unset($cart[$removeId]); // Remove the item from the cart
-        $_SESSION['cart'] = $cart; // Update the session
-        header('Location: cart.php'); // Refresh to update the view
+        unset($cart[$removeId]);
+        $_SESSION['cart'] = $cart;
+        header('Location: cart.php');
         exit();
     }
 }
@@ -29,14 +29,14 @@ foreach ($cart as $item) {
     <p><a href="shopping.php">Continue Shopping</a></p>
 
     <?php if (!empty($cart)): ?>
-        <?php foreach ($cart as $item): ?>
+        <?php foreach ($cart as $key => $item): ?>
             <div class="cart-item">
-                <img src="assets/images/<?php echo htmlspecialchars($item['image']); ?>" alt="Product Image">
+                <img src="<?= htmlspecialchars($item['image']); ?>" alt="Product Image">
                 <div>
-                    <h3><?php echo htmlspecialchars($item['name']); ?></h3>
-                    <p>Quantity: <?php echo htmlspecialchars($item['quantity']); ?></p>
-                    <p>Price: $<?php echo number_format($item['price'], 2); ?></p>
-                    <a href="cart.php?remove_id=<?php echo $item['id']; ?>">Remove</a>
+                    <h3><?= htmlspecialchars($item['name']); ?></h3>
+                    <p>Quantity: <?= htmlspecialchars($item['quantity']); ?></p>
+                    <p>Price: $<?= number_format($item['price'], 2); ?></p>
+                    <a href="cart.php?remove_id=<?= htmlspecialchars($key); ?>">Remove</a>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -46,7 +46,7 @@ foreach ($cart as $item) {
 
     <div class="order-summary">
         <h2>Order Summary</h2>
-        <p>Subtotal: $<?php echo number_format($subtotal, 2); ?></p>
+        <p>Subtotal: $<?= number_format($subtotal, 2); ?></p>
         <p><a href="checkout.php">Proceed to Checkout</a></p>
     </div>
 </main>

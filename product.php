@@ -8,8 +8,16 @@ include 'includes/header.php';
 include 'scripts/data.php';
 
 // Get product details by ID
-$productId = $_GET['id'] ?? null;
-$product = $products[$productId] ?? null;
+$productId = isset($_GET['id']) ? (int)$_GET['id'] : null;
+
+// Validate if the product exists in the array
+$product = null;
+foreach ($products as $item) {
+    if ($item['id'] === $productId) {
+        $product = $item;
+        break;
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $cart = $_SESSION['cart'] ?? [];
@@ -19,11 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     // Generate a unique key for size and color combinations
     $uniqueKey = $productId . '_' . $selectedSize . '_' . $selectedColor;
 
-    // Check if the item with the selected size and color already exists in the cart
     if (isset($cart[$uniqueKey])) {
-        $cart[$uniqueKey]['quantity'] += 1; // Increment quantity if already in the cart
+        $cart[$uniqueKey]['quantity'] += 1;
     } else {
-        // Add a new item with selected size and color to the cart
         $cart[$uniqueKey] = [
             'id' => $productId,
             'name' => $product['name'],
@@ -35,8 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         ];
     }
 
-    $_SESSION['cart'] = $cart; // Update session
-    header('Location: cart.php'); // Redirect to cart page
+    $_SESSION['cart'] = $cart;
+    header('Location: cart.php');
     exit();
 }
 
@@ -46,12 +52,13 @@ if (!$product) {
 ?>
     <div class="product-container">
         <div class="product-image">
-            <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+            <img src="<?= htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
         </div>
         <div class="product-details">
-            <h1><?php echo htmlspecialchars($product['name']); ?></h1>
-            <p class="price">$<?php echo number_format($product['price'], 2); ?></p>
+            <h1><?= htmlspecialchars($product['name']); ?></h1>
+            <p class="price">$<?= number_format($product['price'], 2); ?></p>
             <form method="post">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($productId); ?>">
                 <label for="size">Select Size:</label>
                 <select name="size" id="size" required>
                     <option value="S">Small</option>
@@ -59,7 +66,6 @@ if (!$product) {
                     <option value="L">Large</option>
                     <option value="XL">Extra Large</option>
                 </select>
-
                 <label for="color">Select Color:</label>
                 <select name="color" id="color" required>
                     <option value="Red">Red</option>
@@ -67,7 +73,6 @@ if (!$product) {
                     <option value="Green">Green</option>
                     <option value="Black">Black</option>
                 </select>
-
                 <button type="submit" name="add_to_cart">Add to Cart</button>
             </form>
         </div>
