@@ -30,6 +30,7 @@ foreach ($cart as $item) {
 
     <?php if (!empty($cart)): ?>
         <?php foreach ($cart as $key => $item): ?>
+            
             <div class="cart-item">
                 <img src="<?= htmlspecialchars($item['image']); ?>" alt="Product Image">
                 <div>
