@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +27,13 @@ session_start();
         </nav>
         <div class="login-cart">
             <a href="cart.php" class="cart-link">🛒</a>
-            <a href="login.php" class="login-link">Login</a>
+            <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
+                <span>Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?>!</span>
+                <a href="logout.php" class="logout-link">Logout</a>
+            <?php else: ?>
+                <a href="login.php" class="login-link">Login</a>
+                <a href="register.php" class="register-link">Register</a>
+            <?php endif; ?>
         </div>
     </section>
 </header>
