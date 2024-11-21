@@ -53,6 +53,7 @@ if (!$product) {
     $categoryDescriptions = [
         "Jackets" => "Stay stylish and warm with our Classic Comfort Jacket. Designed with premium materials, this jacket features a sleek silhouette, durable stitching, and a cozy inner lining. Perfect for layering during chilly days or adding a polished touch to your outfit, it’s a versatile must-have for any wardrobe. Available in a range of colors and sizes to suit your style.",
         "Shoes" => "Elevate your look with our stylish and comfortable fashion shoes. Designed for versatility, they pair effortlessly with casual or formal outfits, making them a perfect choice for any occasion. Crafted with high-quality materials for durability and all-day comfort, these shoes are a must-have for every wardrobe.",
+        "Sweatshirts & Hoodies" => "Stay warm and on-trend with our cozy hoodies, crafted for ultimate comfort and everyday style. Featuring soft fabrics, a relaxed fit, and versatile designs, these hoodies are perfect for lounging, layering, or hitting the streets in style. Available in a variety of colors and sizes to match your vibe.",
     ];
 
     // Get the description for the product's category, if available
