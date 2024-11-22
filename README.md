@@ -8,7 +8,7 @@
 - Himanshu Punia - n0207198
 - Varunkanth - n0205489
 
-Project Documentation
+# Project Documentation
 
 ---
 
@@ -67,36 +67,59 @@ This project is a dynamic e-commerce website for an online clothing store, enabl
      *Products (id, name, price, description)
      *Orders (id, user_id, product_id, quantity)
 
-   ## Technologies Used
+## Technologies Used
 
    - Back-End: PHP (handles dynamic content and database interactions).
    - Database: MySQL.
    - Front-End: HTML, CSS, JavaScript.
    - Server Environment: XAMPP (for local testing).
 
-   ## Security Features
+## Security Features
 
    - Password hashing with password_hash() for safe storage.
    - Input sanitization to prevent SQL injection.
    - Secure session handling for user authentication.
 
-   Installation and Setup
+## How to Set Up the Project Locally
+### Prerequisites
+- PHP (v8.0 or higher)
+- MySQL (v5.7 or higher)
+- A local server environment like XAMPP, WAMP, or MAMP
+- A web browser
+  
+### Steps to Install and Run the Project
+1. Clone the Repository to your local 
 
-   ***
+2. Set Up the Database
 
-   - Install XAMPP or another PHP environment.
-   - Clone the project into the htdocs directory.
-   - Import the provided SQL file into MySQL to create the database.
-   - Update db.php with your database credentials.
-   - Start the Apache and MySQL servers in XAMPP.
-   - Access the project at http://localhost/<project_folder>.
+- Import the provided database_dump.sql file into the MySQL server.
+- Alternatively, use phpMyAdmin to import the .sql file.
+  
+3. Configure the Environment
 
-   Future Improvements
+Edit the config.php file to include the database credentials:
 
-   ***
+<?php
+define('DB_HOST', 'localhost');
+define('DB_USER', 'your-username');
+define('DB_PASS', 'your-password');
+define('DB_NAME', 'database_name');
+?>
+
+4. Start the Local Server
+
+- Using XAMPP/WAMP/MAMP, move the project folder to the htdocs directory.
+- Open the local server (http://localhost/<project_folder>)
+- Run the Application
+
+## Future Improvements
 
    - Add payment gateway integration.
    - Include advanced filters for products.
    - Enable order tracking for users.
+## Contributors
+Tien: Backend Development and Databae setup
 
----
+Varunkath: Database setup and project documentation
+
+Himanshu Punia: Frontend Development, User Authentication
