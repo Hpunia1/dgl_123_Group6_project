@@ -16,6 +16,14 @@
 
 This project is a dynamic e-commerce website for an online clothing store, enabling users to browse and shop for curated collections. It integrates a back-end in PHP with MySQL for data management and ensures a responsive front-end for optimal user experience.
 
+## Main Features
+- Homepage: A visually appealing homepage featuring the latest products and categories.
+- Product Catalog: A detailed list of clothing items with filters by category, size, and price.
+- User Authentication: Secure login and registration system for customers.
+- Shopping Cart: Add, update, or remove items in the cart before checkout.
+- Order Management: View order history and track the status of current orders.
+- Accessibility Features: Designed to meet accessibility standards using WAVE and Lighthouse tools.
+  
 ## Features
 
 1. ## User Authentication System
