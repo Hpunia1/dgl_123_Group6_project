@@ -105,13 +105,13 @@ This project is a dynamic e-commerce website for an online clothing store, enabl
   
 3. Configure the Environment
 
-- Edit the config.php file to include the database credentials:
+- Edit the config.php file to include the database credentials (can be found in db.php)
 
 <?php
 define('DB_HOST', 'localhost');
-define('DB_USER', 'your-username');
-define('DB_PASS', 'your-password');
-define('DB_NAME', 'database_name');
+define('DB_USER', 'root');
+define('DB_PASS', '""');
+define('DB_NAME', 'demophp');
 ?>
 
 4. Start the Local Server
