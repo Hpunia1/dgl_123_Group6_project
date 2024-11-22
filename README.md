@@ -100,8 +100,8 @@ This project is a dynamic e-commerce website for an online clothing store, enabl
 
 2. Set Up the Database
 
-- Import the provided database_dump.sql file into the MySQL server.
-- Alternatively, use phpMyAdmin to import the .sql file.
+- Import the provided demophp.sql file into the MySQL server. *[OR]*
+- Alternatively, use phpMyAdmin to import the demophp.sql file.
   
 3. Configure the Environment
 
