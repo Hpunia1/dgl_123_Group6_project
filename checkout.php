@@ -63,13 +63,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <title>Checkout</title>
     </head>
 <body>
 <div class="container">
     <h1>Checkout</h1>
     <form action="checkout.php" method="POST">
+
+
+    <div class="check-out">
+    <div class="bill1">
         <h2>Billing Address</h2>
         <label for="billing_name">Name:</label>
         <input type="text" id="billing_name" name="billing_name" required>
@@ -85,7 +89,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label for="billing_zip">ZIP Code:</label>
         <input type="text" id="billing_zip" name="billing_zip" required>
+        </div>
 
+        <div class="bill2">
         <h2>Payment Method</h2>
         <div class="payment-method">
             <input type="radio" id="credit_card" name="payment_method" value="Credit Card" onclick="showPaymentDetails('credit_card_form')" required>
@@ -117,6 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="radio" id="cod" name="payment_method" value="Cash on Delivery" onclick="showPaymentDetails('')" required>
             <img src="https://img.icons8.com/color/48/000000/cash-in-hand.png" alt="Cash on Delivery">
             <label for="cod">Cash on Delivery</label>
+        </div>
+
+        </div>
         </div>
 
         <h2>Order Summary</h2>
