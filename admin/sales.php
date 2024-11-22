@@ -1,26 +1,44 @@
 <?php
 include '../db.php';
 
-// Handle form submission for adding/updating sales
+// Handle Apply/Save Discount
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? null;
-    $product_id = $_POST['product_id'];
-    $discount = $_POST['discount'];
-
-    if ($id) {
-        // Update existing sale
-        $sql = "UPDATE sales SET product_id = '$product_id', discount = '$discount' WHERE id = '$id'";
-    } else {
-        // Add new sale
-        $sql = "INSERT INTO sales (product_id, discount) VALUES ('$product_id', '$discount')";
+    foreach ($_POST['discounts'] as $sale_id => $data) {
+        $product_id = intval($data['product_id']);
+        $discount = floatval($data['discount']);
+        
+        if ($sale_id === 'new') {
+            // Insert new discount
+            $sql = "INSERT INTO sales (product_id, discount) VALUES ('$product_id', '$discount')";
+        } else {
+            // Update existing discount
+            $sql = "UPDATE sales SET product_id = '$product_id', discount = '$discount' WHERE id = $sale_id";
+        }
+        mysqli_query($conn, $sql);
     }
-    mysqli_query($conn, $sql);
+
+    // Redirect to refresh page
+    header("Location: sales.php");
+    exit();
 }
 
-// Fetch sales
-$sales = mysqli_query($conn, "SELECT s.id, p.name AS product, s.discount 
+// Handle Delete Discount
+if (isset($_GET['delete_id'])) {
+    $delete_id = intval($_GET['delete_id']);
+    $sql = "DELETE FROM sales WHERE id = $delete_id";
+    if (mysqli_query($conn, $sql)) {
+        header("Location: sales.php");
+        exit();
+    } else {
+        die("Error deleting sale: " . mysqli_error($conn));
+    }
+}
+
+// Fetch all sales
+$sales = mysqli_query($conn, "SELECT s.id, p.id AS product_id, p.name AS product, s.discount 
                               FROM sales s 
                               JOIN products p ON s.product_id = p.id");
+$products = mysqli_query($conn, "SELECT id, name FROM products");
 ?>
 
 <!DOCTYPE html>
@@ -28,15 +46,14 @@ $sales = mysqli_query($conn, "SELECT s.id, p.name AS product, s.discount
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales</title>
+    <title>Manage Sales</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-    <div class="container py-4">
-        <h1 class="h4 mb-4">Manage Sales</h1>
 
-         <!-- Sidebar -->
-         <aside class="bg-white shadow-sm" style="width: 250px; height: 100vh;">
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <aside class="bg-white shadow-sm" style="width: 250px; height: 100vh;">
             <div class="p-3 text-center fw-bold border-bottom">Admin Panel</div>
             <nav class="mt-3">
                 <ul class="nav flex-column">
@@ -44,72 +61,90 @@ $sales = mysqli_query($conn, "SELECT s.id, p.name AS product, s.discount
                         <a href="index.php" class="nav-link px-3 py-2">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a href="products.php" class="nav-link px-3 py-2 active">Products</a>
+                        <a href="products.php" class="nav-link px-3 py-2">Products</a>
                     </li>
                     <li class="nav-item">
                         <a href="categories.php" class="nav-link px-3 py-2">Categories</a>
                     </li>
                     <li class="nav-item">
-                        <a href="sales.php" class="nav-link px-3 py-2">Sales</a>
+                        <a href="sales.php" class="nav-link px-3 py-2 active">Sales</a>
                     </li>
                     <li class="nav-item">
                         <a href="customers.php" class="nav-link px-3 py-2">Customers</a>
                     </li>
                 </ul>
             </nav>
-<main>
-        <!-- Add/Edit Sale Form -->
-        <form method="POST" class="mb-4">
-            <input type="hidden" name="id" id="sale-id">
-            <div class="mb-3">
-                <label for="product_id" class="form-label">Product</label>
-                <select name="product_id" id="product_id" class="form-select" required>
-                    <?php
-                    $products = mysqli_query($conn, "SELECT id, name FROM products");
-                    while ($product = mysqli_fetch_assoc($products)): ?>
-                        <option value="<?= $product['id'] ?>"><?= htmlspecialchars($product['name']) ?></option>
-                    <?php endwhile; ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="discount" class="form-label">Discount (%)</label>
-                <input type="number" name="discount" id="discount" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-        </form>
+        </aside>
 
-        <!-- Sales Table -->
-        <div class="table-responsive bg-white shadow-sm rounded">
-            <table class="table table-striped mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Discount (%)</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while ($sale = mysqli_fetch_assoc($sales)): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($sale['product']) ?></td>
-                        <td><?= htmlspecialchars($sale['discount']) ?>%</td>
-                        <td>
-                            <button class="btn btn-sm btn-primary" onclick="editSale(<?= $sale['id'] ?>, <?= $sale['product_id'] ?>, <?= $sale['discount'] ?>)">Edit</button>
-                            <a href="delete_sale.php?id=<?= $sale['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
-                        </td>
-                    </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+        <!-- Main Content -->
+        <div class="container py-4">
+            <h1 class="h4 mb-4">Manage Discounts</h1>
+
+            <!-- Sales Form -->
+            <form method="POST">
+                <div class="table-responsive bg-white shadow-sm rounded">
+                    <table class="table table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Discount (%)</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Existing Discounts -->
+                            <?php while ($sale = mysqli_fetch_assoc($sales)): ?>
+                            <tr>
+                                <td>
+                                    <select name="discounts[<?= $sale['id'] ?>][product_id]" class="form-control">
+                                        <?php
+                                        mysqli_data_seek($products, 0); // Reset product pointer
+                                        while ($product = mysqli_fetch_assoc($products)): ?>
+                                            <option value="<?= $product['id'] ?>" <?= $sale['product_id'] == $product['id'] ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($product['name']) ?>
+                                            </option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="discounts[<?= $sale['id'] ?>][discount]" value="<?= htmlspecialchars($sale['discount']) ?>" class="form-control">
+                                </td>
+                                <td>
+                                    <a href="sales.php?delete_id=<?= $sale['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this discount?')">Remove</a>
+                                </td>
+                            </tr>
+                            <?php endwhile; ?>
+
+                            <!-- New Discount Row -->
+                            <tr>
+                                <td>
+                                    <select name="discounts[new][product_id]" class="form-control">
+                                        <option value="" disabled selected>Select Product</option>
+                                        <?php
+                                        mysqli_data_seek($products, 0); // Reset product pointer
+                                        while ($product = mysqli_fetch_assoc($products)): ?>
+                                            <option value="<?= $product['id'] ?>"><?= htmlspecialchars($product['name']) ?></option>
+                                        <?php endwhile; ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="number" name="discounts[new][discount]" placeholder="Enter Discount" class="form-control">
+                                </td>
+                                <td>
+                                    <span class="text-muted">New Discount</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Save Button -->
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
-                    </main>
-    <script>
-        function editSale(id, productId, discount) {
-            document.getElementById('sale-id').value = id;
-            document.getElementById('product_id').value = productId;
-            document.getElementById('discount').value = discount;
-        }
-    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
