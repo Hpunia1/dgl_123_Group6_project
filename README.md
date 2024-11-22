@@ -20,52 +20,52 @@ This project is a dynamic e-commerce website for an online clothing store, enabl
 
 1. ## User Authentication System
    - Registration and Login:
-     *register.php handles user registration.
-     *login.php manages user login.
-     \*Passwords are hashed using password_hash() for security.
+     - register.php handles user registration.
+     - login.php manages user login.
+     - Passwords are hashed using password_hash() for security.
    - Logout:
-     \*logout.php securely ends user sessions.
+     - logout.php securely ends user sessions.
 2. ## Product Management
    - Product Display:
-     \*product.php dynamically loads product details from the database.
+     - product.php dynamically loads product details from the database.
    - Shopping Functionality:
-     *shopping.php allows users to view and purchase available products.
-     *cart.php implements a shopping cart to store selected items.
+     - shopping.php allows users to view and purchase available products.
+     - cart.php implements a shopping cart to store selected items.
 3. ## Database Integration
 
    - Database Configuration:
-     *db.php connects the application to the MySQL database.
-     *Data such as user credentials, product details, and orders are stored.
+     - db.php connects the application to the MySQL database.
+     - Data such as user credentials, product details, and orders are stored.
 
    - CRUD Operations:
-     \*Products, users, and cart data can be created, updated, and deleted using PHP scripts.
+     - Products, users, and cart data can be created, updated, and deleted using PHP scripts.
 
 4. ## Dynamic Front-End
    - Homepage:
-     \*index.php serves as the homepage, welcoming users and linking to the shopping page.
+     - index.php serves as the homepage, welcoming users and linking to the shopping page.
    - Header and Footer Components:
-     \*includes/header.php and includes/footer.php ensure a consistent layout.
+     - includes/header.php and includes/footer.php ensure a consistent layout.
 5. ## Navigation
    - A clear navigation bar links to essential pages like:
-     *Home
-     *Shopping
-     \*Login/Register
+     - Home
+     - Shopping
+     - Login/Register
 6. ## Responsive Design
 
    - CSS Styling:
-     \*style.css and styles.css ensure a visually appealing, mobile-friendly design.
+     - style.css and styles.css ensure a visually appealing, mobile-friendly design.
 
    - Core Files and Directories
-     *Root Files:
-     *index.php (Homepage)
-     *README.md (Documentation overview)
-     *Includes Directory:
-     *Header and footer components for reusability.
-     *Database Schema:
-     *Includes tables for:
-     *Users (id, username, password)
-     *Products (id, name, price, description)
-     *Orders (id, user_id, product_id, quantity)
+     - Root Files:
+     - index.php (Homepage)
+     - README.md (Documentation overview)
+     - Includes Directory:
+       - Header and footer components for reusability.
+     - Database Schema:
+       - Includes tables for:
+         - Users (id, username, password)
+         - Products (id, name, price, description)
+         - Orders (id, user_id, product_id, quantity)
 
 ## Technologies Used
 
@@ -97,7 +97,7 @@ This project is a dynamic e-commerce website for an online clothing store, enabl
   
 3. Configure the Environment
 
-Edit the config.php file to include the database credentials:
+- Edit the config.php file to include the database credentials:
 
 <?php
 define('DB_HOST', 'localhost');
@@ -117,6 +117,7 @@ define('DB_NAME', 'database_name');
    - Add payment gateway integration.
    - Include advanced filters for products.
    - Enable order tracking for users.
+     
 ## Contributors
 Tien: Backend Development and Databae setup
 
