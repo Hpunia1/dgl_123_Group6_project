@@ -26,38 +26,24 @@ try {
     echo "<p>Error fetching products: " . $e->getMessage() . "</p>";
 }
 
-// Handle Add to Cart
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
-    $cart = $_SESSION['cart'] ?? [];
-    $productId = $_POST['product_id'];
+// Handle category filtering
+$selected_categories = $_POST['categories'] ?? []; // Selected categories from the form
+$filtered_products = [];
 
-    // Find the product details
+if (!empty($selected_categories)) {
     foreach ($products as $product) {
-        if ($product['id'] == $productId) {
-            if (isset($cart[$productId])) {
-                $cart[$productId]['quantity'] += 1;
-            } else {
-                $cart[$productId] = [
-                    'id' => $product['id'],
-                    'name' => $product['name'],
-                    'price' => $product['final_price'],
-                    'image' => $product['image'],
-                    'quantity' => 1,
-                ];
-            }
-            break;
+        if (in_array($product['category'], $selected_categories)) {
+            $filtered_products[] = $product;
         }
     }
-
-    $_SESSION['cart'] = $cart;
-    header('Location: shopping.php');
-    exit();
+} else {
+    $filtered_products = $products; // No filter, show all products
 }
 
 // Pagination logic
 $initial_display_count = 9; // Initial products to display
 $products_per_load = 3; // Products per "Load More" or "Show Less"
-$total_products = count($products);
+$total_products = count($filtered_products);
 $products_to_display = isset($_POST['products_to_display']) 
     ? (int)$_POST['products_to_display'] 
     : $initial_display_count;
@@ -138,21 +124,21 @@ $products_to_display = max($products_per_load, min($total_products, $products_to
                         <li>
                             <label>
                                 <input type="checkbox" name="categories[]" value="Jackets" 
-                                    <?= in_array('Jackets', $_POST['categories'] ?? []) ? 'checked' : ''; ?> />
+                                    <?= in_array('Jackets', $selected_categories) ? 'checked' : ''; ?> />
                                 Jackets
                             </label>
                         </li>
                         <li>
                             <label>
                                 <input type="checkbox" name="categories[]" value="Sweatshirts & Hoodies" 
-                                    <?= in_array('Sweatshirts & Hoodies', $_POST['categories'] ?? []) ? 'checked' : ''; ?> />
+                                    <?= in_array('Sweatshirts & Hoodies', $selected_categories) ? 'checked' : ''; ?> />
                                 Sweatshirts & Hoodies
                             </label>
                         </li>
                         <li>
                             <label>
                                 <input type="checkbox" name="categories[]" value="Shoes" 
-                                    <?= in_array('Shoes', $_POST['categories'] ?? []) ? 'checked' : ''; ?> />
+                                    <?= in_array('Shoes', $selected_categories) ? 'checked' : ''; ?> />
                                 Shoes
                             </label>
                         </li>
@@ -169,7 +155,7 @@ $products_to_display = max($products_per_load, min($total_products, $products_to
         <div class="products">
             <h1 class="text-center mb-4">Products</h1>
             <div class="row">
-                <?php foreach (array_slice($products, 0, $products_to_display) as $product): ?>
+                <?php foreach (array_slice($filtered_products, 0, $products_to_display) as $product): ?>
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <?php if ($product['discount'] > 0): ?>

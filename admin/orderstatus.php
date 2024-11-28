@@ -3,14 +3,28 @@ include '../db.php';
 
 // Handle Update Order Status Request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['id']);
-    $status = mysqli_real_escape_string($conn, $_POST['status']);
+    // Validate input data
+    if (!isset($_POST['id'], $_POST['status'])) {
+        die("Invalid request: Missing required parameters.");
+    }
 
+    $id = intval($_POST['id']); // Ensure ID is an integer
+    $status = mysqli_real_escape_string($conn, $_POST['status']); // Sanitize the status input
+
+    // Ensure status is one of the allowed values
+    $allowedStatuses = ['Pending', 'Shipped', 'Delivered', 'Cancelled'];
+    if (!in_array($status, $allowedStatuses)) {
+        die("Invalid status value.");
+    }
+
+    // Update the order status in the database
     $sql = "UPDATE orders SET status = '$status' WHERE id = $id";
     if (mysqli_query($conn, $sql)) {
+        // Redirect back to the same page to prevent resubmission
         header("Location: orderstatus.php");
         exit();
     } else {
+        // Display the error if the query fails
         die("Error updating order: " . mysqli_error($conn));
     }
 }
@@ -18,6 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Fetch all orders
 $sql = "SELECT * FROM orders ORDER BY created_at DESC";
 $result = mysqli_query($conn, $sql);
+
+if (!$result) {
+    die("Error fetching orders: " . mysqli_error($conn));
+}
 ?>
 
 <!DOCTYPE html>
@@ -78,25 +96,25 @@ $result = mysqli_query($conn, $sql);
                     <tbody>
                         <?php while ($row = mysqli_fetch_assoc($result)): ?>
                         <tr>
-                            <td><?= $row['id'] ?></td>
-                            <td><?= htmlspecialchars($row['customer_name']) ?></td>
-                            <td><?= htmlspecialchars($row['customer_email']) ?></td>
-                            <td><?= htmlspecialchars($row['product_details']) ?></td>
-                            <td>$<?= number_format($row['total_amount'], 2) ?></td>
+                            <td><?= htmlspecialchars($row['id']); ?></td>
+                            <td><?= htmlspecialchars($row['customer_name']); ?></td>
+                            <td><?= htmlspecialchars($row['customer_email']); ?></td>
+                            <td><?= htmlspecialchars($row['product_details']); ?></td>
+                            <td>$<?= number_format($row['total_amount'], 2); ?></td>
                             <td>
                                 <form method="POST" class="d-inline">
-                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($row['id']); ?>">
                                     <select name="status" class="form-select form-select-sm w-auto d-inline">
-                                        <option value="Pending" <?= $row['status'] == 'Pending' ? 'selected' : '' ?>>Pending</option>
-                                        <option value="Shipped" <?= $row['status'] == 'Shipped' ? 'selected' : '' ?>>Shipped</option>
-                                        <option value="Delivered" <?= $row['status'] == 'Delivered' ? 'selected' : '' ?>>Delivered</option>
-                                        <option value="Cancelled" <?= $row['status'] == 'Cancelled' ? 'selected' : '' ?>>Cancelled</option>
+                                        <option value="Pending" <?= $row['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                                        <option value="Shipped" <?= $row['status'] === 'Shipped' ? 'selected' : ''; ?>>Shipped</option>
+                                        <option value="Delivered" <?= $row['status'] === 'Delivered' ? 'selected' : ''; ?>>Delivered</option>
+                                        <option value="Cancelled" <?= $row['status'] === 'Cancelled' ? 'selected' : ''; ?>>Cancelled</option>
                                     </select>
-                                    <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-sm btn-success">Update</button>
                                 </form>
                             </td>
                             <td>
-                            <a href="delete_order.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this order?')">Delete</a>
+                                <a href="delete_order.php?id=<?= htmlspecialchars($row['id']); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this order?')">Delete</a>
                             </td>
                         </tr>
                         <?php endwhile; ?>
