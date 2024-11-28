@@ -398,7 +398,7 @@ nav ul li a:hover {
 /* Products Grid */
 .products {
   flex: 1;
-  margin-top: 5rem;
+  margin-top: 0rem;
 }
 
 .product-grid {

@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 </div>
 
                 <!-- Add to Cart Button -->
-                <button type="submit" name="add_to_cart" class="btn btn-primary">Add to Cart</button>
+                <button type="submit" name="add_to_cart" class="btn btn-success">Add to Cart</button>
             </form>
         </div>
     </div>

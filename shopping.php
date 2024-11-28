@@ -53,6 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     header('Location: shopping.php');
     exit();
 }
+
+// Pagination logic
+$initial_display_count = 9; // Initial products to display
+$products_per_load = 3; // Products per "Load More" or "Show Less"
+$total_products = count($products);
+$products_to_display = isset($_POST['products_to_display']) 
+    ? (int)$_POST['products_to_display'] 
+    : $initial_display_count;
+
+// Clamp the number of products to display
+$products_to_display = max($products_per_load, min($total_products, $products_to_display));
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                         </li>
                     </ul>
                 </div>
-                <button type="submit" class="btn btn-primary btn-sm">Apply Filters</button>
+                <button type="submit" class="btn btn-success btn-sm">Apply Filters</button>
             </form>
             <div class="flt mt-2">
                 <a href="shopping.php" class="btn btn-link btn-sm">Clear filters</a>
@@ -158,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         <div class="products">
             <h1 class="text-center mb-4">Products</h1>
             <div class="row">
-                <?php foreach ($products as $product): ?>
+                <?php foreach (array_slice($products, 0, $products_to_display) as $product): ?>
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <?php if ($product['discount'] > 0): ?>
@@ -179,12 +190,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                 <!-- Add to Cart Form -->
                                 <form method="POST">
                                     <input type="hidden" name="product_id" value="<?= $product['id']; ?>">
-                                    <button type="submit" name="add_to_cart" class="btn btn-primary btn-sm">Add to Cart</button>
+                                    <button type="submit" name="add_to_cart" class="btn btn-success btn-sm">Add to Cart</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
+            </div>
+
+            <!-- Pagination Buttons -->
+            <div class="load-buttons d-flex justify-content-between mt-4">
+                <form method="POST">
+                    <?php if ($products_to_display < $total_products): ?>
+                        <input type="hidden" name="products_to_display" value="<?= $products_to_display + $products_per_load; ?>">
+                        <button type="submit" class="btn btn-success">Load More Products</button>
+                    <?php endif; ?>
+                </form>
+                <form method="POST">
+                    <?php if ($products_to_display > $products_per_load): ?>
+                        <input type="hidden" name="products_to_display" value="<?= $products_to_display - $products_per_load; ?>">
+                        <button type="submit" class="btn btn-success">Show Fewer Products</button>
+                    <?php endif; ?>
+                </form>
             </div>
         </div>
     </div>
