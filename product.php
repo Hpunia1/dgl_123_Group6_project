@@ -1,43 +1,38 @@
 <?php
 session_start();
-
 $pageTitle = "Product Details";
 include 'includes/header.php';
 
-// Include the products data
-include 'scripts/data.php';
+// Include the database connection
+include 'db.php';
 
 // Get product details by ID
 $productId = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
-// Find the product by its ID
-$product = null;
-foreach ($products as $item) {
-    if ($item['id'] === $productId) {
-        $product = $item;
-        break;
-    }
-}
+// Fetch the product from the database
+$query = "SELECT * FROM products WHERE id = $productId";
+$result = mysqli_query($conn, $query);
+$product = mysqli_fetch_assoc($result);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     $cart = $_SESSION['cart'] ?? [];
+    $productId = $_POST['product_id'];
     $selectedSize = $_POST['size'] ?? 'Default';
-    $selectedColor = $_POST['color'] ?? 'Default';
+    $quantity = (int)$_POST['quantity'];
 
-    // Generate a unique key for size and color combinations
-    $uniqueKey = $productId . '_' . $selectedSize . '_' . $selectedColor;
+    // Generate a unique key for size combinations
+    $uniqueKey = $productId . '_' . $selectedSize;
 
     if (isset($cart[$uniqueKey])) {
-        $cart[$uniqueKey]['quantity'] += 1;
+        $cart[$uniqueKey]['quantity'] += $quantity;
     } else {
         $cart[$uniqueKey] = [
             'id' => $productId,
             'name' => $product['name'],
             'price' => $product['price'],
             'image' => $product['image'],
-            'quantity' => 1,
+            'quantity' => $quantity,
             'size' => $selectedSize,
-            'color' => $selectedColor,
         ];
     }
 
@@ -49,44 +44,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 if (!$product) {
     echo "<h1>Product not found</h1>";
 } else {
-    // Define custom descriptions for specific categories
-    $categoryDescriptions = [
-        "Jackets" => "Stay stylish and warm with our Classic Comfort Jacket. Designed with premium materials, this jacket features a sleek silhouette, durable stitching, and a cozy inner lining. Perfect for layering during chilly days or adding a polished touch to your outfit, it’s a versatile must-have for any wardrobe. Available in a range of colors and sizes to suit your style.",
-        "Shoes" => "Elevate your look with our stylish and comfortable fashion shoes. Designed for versatility, they pair effortlessly with casual or formal outfits, making them a perfect choice for any occasion. Crafted with high-quality materials for durability and all-day comfort, these shoes are a must-have for every wardrobe.",
-        "Sweatshirts & Hoodies" => "Stay warm and on-trend with our cozy hoodies, crafted for ultimate comfort and everyday style. Featuring soft fabrics, a relaxed fit, and versatile designs, these hoodies are perfect for lounging, layering, or hitting the streets in style. Available in a variety of colors and sizes to match your vibe.",
-    ];
-
-    // Get the description for the product's category, if available
-    $productDescription = $categoryDescriptions[$product['category']] ?? "No additional description is available for this product.";
 ?>
-    <div class="product-container">
-        <div class="product-image">
-            <img src="<?= htmlspecialchars($product['image']); ?>" alt="<?= htmlspecialchars($product['name']); ?>">
+<div class="container mt-5">
+    <div class="row">
+        <!-- Product Image -->
+        <div class="col-md-6">
+            <img src="<?= htmlspecialchars($product['image']); ?>" class="img-fluid rounded" alt="<?= htmlspecialchars($product['name']); ?>">
         </div>
-        <div class="product-details">
+        <!-- Product Details -->
+        <div class="col-md-6">
             <h1><?= htmlspecialchars($product['name']); ?></h1>
-            <p class="price">$<?= number_format($product['price'], 2); ?></p>
-            <p class="description"><?= htmlspecialchars($productDescription); ?></p>
-            <form method="post">
-                <input type="hidden" name="product_id" value="<?= htmlspecialchars($productId); ?>">
-                <label for="size">Select Size:</label>
-                <select name="size" id="size" required>
-                    <option value="S">Small</option>
-                    <option value="M">Medium</option>
-                    <option value="L">Large</option>
-                    <option value="XL">Extra Large</option>
-                </select>
-                <label for="color">Select Color:</label>
-                <select name="color" id="color" required>
-                    <option value="Red">Red</option>
-                    <option value="Blue">Blue</option>
-                    <option value="Green">Green</option>
-                    <option value="Black">Black</option>
-                </select>
-                <button type="submit" name="add_to_cart">Add to Cart</button>
+            <p class="text-muted">$<?= number_format($product['price'], 2); ?></p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor, sapien non laoreet volutpat, risus nisi scelerisque odio, eget vehicula libero nunc sit amet massa.</p>
+            <form method="POST" class="mt-4">
+                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']); ?>">
+
+                <!-- Size Dropdown -->
+                <div class="mb-3">
+                    <label for="size" class="form-label">Select Size:</label>
+                    <select name="size" id="size" class="form-select" required>
+                        <option value="S">Small</option>
+                        <option value="M">Medium</option>
+                        <option value="L">Large</option>
+                        <option value="XL">Extra Large</option>
+                    </select>
+                </div>
+
+                <!-- Quantity Selector -->
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Quantity:</label>
+                    <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1" required>
+                </div>
+
+                <!-- Add to Cart Button -->
+                <button type="submit" name="add_to_cart" class="btn btn-primary">Add to Cart</button>
             </form>
         </div>
     </div>
+</div>
 <?php
 }
 include 'includes/footer.php';

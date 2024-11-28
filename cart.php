@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 $pageTitle = "Cart";
 include 'includes/header.php';
 
@@ -24,31 +23,32 @@ foreach ($cart as $item) {
     $subtotal += $item['price'] * $item['quantity'];
 }
 ?>
-<main class="cart-container">
-    <h1>Your Cart</h1>
-    <p><a href="shopping.php">Continue Shopping</a></p>
+<div class="container mt-5">
+    <h1 class="text-center">Your Cart</h1>
+    <p class="text-center"><a href="shopping.php">Continue Shopping</a></p>
 
     <?php if (!empty($cart)): ?>
-        <?php foreach ($cart as $key => $item): ?>
-            
-            <div class="cart-item">
-                <img src="<?= htmlspecialchars($item['image']); ?>" alt="Product Image">
-                <div>
-                    <h3><?= htmlspecialchars($item['name']); ?></h3>
-                    <p>Quantity: <?= htmlspecialchars($item['quantity']); ?></p>
-                    <p>Price: $<?= number_format($item['price'], 2); ?></p>
-                    <a href="cart.php?remove_id=<?= htmlspecialchars($key); ?>">Remove</a>
+        <div class="row">
+            <?php foreach ($cart as $key => $item): ?>
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="<?= htmlspecialchars($item['image']); ?>" class="card-img-top" alt="Product Image">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($item['name']); ?></h5>
+                            <p>Quantity: <?= htmlspecialchars($item['quantity']); ?></p>
+                            <p>Price: $<?= number_format($item['price'], 2); ?></p>
+                            <a href="cart.php?remove_id=<?= htmlspecialchars($key); ?>" class="btn btn-danger btn-sm">Remove</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
+        <div class="text-center">
+            <h2>Subtotal: $<?= number_format($subtotal, 2); ?></h2>
+            <a href="checkout.php" class="btn btn-success">Proceed to Checkout</a>
+        </div>
     <?php else: ?>
-        <p>Your cart is empty. <a href="shopping.php">Continue Shopping</a></p>
+        <p class="text-center">Your cart is empty. <a href="shopping.php">Continue Shopping</a></p>
     <?php endif; ?>
-
-    <div class="order-summary">
-        <h2>Order Summary</h2>
-        <p>Subtotal: $<?= number_format($subtotal, 2); ?></p>
-        <p><a href="checkout.php">Proceed to Checkout</a></p>
-    </div>
-</main>
+</div>
 <?php include 'includes/footer.php'; ?>

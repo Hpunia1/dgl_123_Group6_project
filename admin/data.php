@@ -1,7 +1,7 @@
 <?php
 // Include the database connection
 include '../db.php';
-include '../data.php';
+include '../scripts/data.php';
 
 // Fetch all products from the database
 $sql = "SELECT * FROM products";
