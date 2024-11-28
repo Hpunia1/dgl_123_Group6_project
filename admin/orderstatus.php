@@ -82,7 +82,7 @@ $result = mysqli_query($conn, $sql);
                             <td><?= htmlspecialchars($row['customer_name']) ?></td>
                             <td><?= htmlspecialchars($row['customer_email']) ?></td>
                             <td><?= htmlspecialchars($row['product_details']) ?></td>
-                            <td>$<?= number_format($row['total_price'], 2) ?></td>
+                            <td>$<?= number_format($row['total_amount'], 2) ?></td>
                             <td>
                                 <form method="POST" class="d-inline">
                                     <input type="hidden" name="id" value="<?= $row['id'] ?>">
