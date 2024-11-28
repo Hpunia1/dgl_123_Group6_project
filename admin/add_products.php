@@ -135,6 +135,7 @@ try {
                     <option value="Shirts">Shirts</option>
                     <option value="T-shirts">T-shirts</option>
                     <option value="Pants & Jeans">Pants & Jeans</option>
+                    <option value="Shoes">Shoes</option> <!-- New category added here -->
                 </select>
             </div>
             <div class="mb-3">
